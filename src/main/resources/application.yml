@@ -1,0 +1,39 @@
+spring:
+  #出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  #不要为我们工程中的资源文件建立映射
+  resources:
+    add-mappings: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog01?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  redis:
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: 100000
+    timeout: 5000
+    database: 0
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*xml
+common:
+  jwtSecret: blogSecret
+  jwtTokenName: BLOG-TOKEN
+  jwtTokenPrefix: Jobeth_Shiro_
+  jwtExpiration: 3000000
+  jwtRefreshTime: 60000
+  redisUrlPermKey: url_perm
+  antMatcher: /sys/login,/sys/logout
+server:
+  port: 7070
+  # 打印sql
+logging:
+  level:
+    com.jobeth.perm.mapper: debug

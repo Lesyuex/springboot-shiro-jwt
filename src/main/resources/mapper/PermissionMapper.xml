@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobeth.perm.mapper.PermissionMapper">
+    <select id="listByPermissionDTO" parameterType="com.jobeth.perm.dto.PermissionDTO"
+            resultType="com.jobeth.perm.po.Permission">
+        SELECT
+        p.id,
+        p.NAME,
+        p.url,
+        p.permission
+        FROM
+        t_permission p
+        LEFT JOIN t_roles_permissions rp ON p.id = rp.perm_id
+        LEFT JOIN t_users_roles ur ON rp.role_id = ur.role_id
+        <where>
+            <if test="userId !=null and userId !=''">
+                and ur.user_id = #{userId,jdbcType=INTEGER}
+            </if>
+            <if test="url !=null and url !=''">
+                and p.url = #{url,jdbcType=VARCHAR}
+            </if>
+            <if test="type !=null">
+                and p.type = #{type,jdbcType=TINYINT}
+            </if>
+            <if test="status !=null">
+                and p.status = #{status,jdbcType=TINYINT}
+            </if>
+        </where>
+        GROUP BY p.url
+    </select>
+</mapper>
